@@ -30,29 +30,25 @@
   svg.setAttribute("viewBox", "0 0 " + W.toFixed(1) + " " + H.toFixed(1));
   document.querySelector(".map-wrap").style.aspectRatio = W.toFixed(1) + " / " + H.toFixed(1);
 
-  var defs = el("defs");
-  defs.innerHTML =
-    '<linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">' +
-    '<stop offset="0" stop-color="#3d86a8"/><stop offset="1" stop-color="#123f5c"/></linearGradient>' +
-    '<filter id="landShadow" x="-5%" y="-5%" width="110%" height="115%">' +
-    '<feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#08202f" flood-opacity="0.45"/></filter>';
-  svg.appendChild(defs);
-
   var content = el("g", { id: "mapContent" });
   svg.appendChild(content);
 
-  content.appendChild(el("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#seaGrad)" }));
+  content.appendChild(el("rect", { x: 0, y: 0, width: W, height: H, fill: "var(--sea)" }));
 
-  // subtle sea contour lines
-  for (var yy = 30; yy < H; yy += 40) {
-    content.appendChild(el("path", {
-      d: "M0 " + yy + " Q " + (W / 4) + " " + (yy - 7) + " " + (W / 2) + " " + yy + " T " + W + " " + yy,
-      fill: "none", stroke: "rgba(255,255,255,0.045)", "stroke-width": 1.5
-    }));
+  // faint coordinate graticule (every 5 degrees) — cartographic reference ink
+  var grat = el("g");
+  content.appendChild(grat);
+  for (var glon = -5; glon <= 35; glon += 5) {
+    var gx = projX(glon).toFixed(1);
+    grat.appendChild(el("line", { x1: gx, y1: 0, x2: gx, y2: H, stroke: "rgba(26,26,23,0.06)", "stroke-width": 0.5 }));
+  }
+  for (var glat = 30; glat <= 45; glat += 5) {
+    var gy = projY(glat).toFixed(1);
+    grat.appendChild(el("line", { x1: 0, y1: gy, x2: W, y2: gy, stroke: "rgba(26,26,23,0.06)", "stroke-width": 0.5 }));
   }
 
   // land
-  var landGroup = el("g", { filter: "url(#landShadow)" });
+  var landGroup = el("g");
   content.appendChild(landGroup);
   GEO.forEach(function (ring) {
     var d = "";
@@ -180,7 +176,7 @@
       void reel.offsetHeight;
       spinning = false;
       playBtn.disabled = false;
-      statusEl.textContent = "🏝️ It landed on " + islands[k].name + "!";
+      statusEl.textContent = "The reel stops at " + islands[k].name + ".";
       selectIsland(k, true);
     };
     reel.addEventListener("transitionend", done);
