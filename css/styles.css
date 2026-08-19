@@ -72,25 +72,35 @@ header p {
 
 #mapContent { transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1); }
 
-.island-blob { fill: var(--island); stroke: var(--island-edge); stroke-width: 0.8; cursor: pointer; }
-.island-dot { fill: #b3541e; }
+.island-group { cursor: pointer; }
+.island-halo { fill: rgba(244, 196, 48, 0); transition: fill 0.3s ease; }
+.island-dot { fill: #a83e12; stroke: #fff; stroke-width: 1; }
 .island-label {
-  font-size: 11px;
+  font-size: 6.5px;
   fill: #06263a;
-  font-weight: 600;
+  font-weight: 700;
   paint-order: stroke;
-  stroke: rgba(255, 255, 255, 0.85);
-  stroke-width: 2.4px;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.6px;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.island-group.selected .island-blob {
+.island-group:hover .island-label { opacity: 0.9; }
+.island-group.selected .island-dot {
   fill: var(--gold);
   stroke: #a9770a;
-  stroke-width: 1.4;
-  filter: drop-shadow(0 0 6px rgba(244, 196, 48, 0.9));
 }
-.island-group.selected .island-label { opacity: 1; font-size: 13px; }
+.island-group.selected .island-halo {
+  fill: rgba(244, 196, 48, 0.28);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.island-group.selected .island-label { opacity: 1; }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+}
+.island-halo { transform-box: fill-box; transform-origin: center; }
 
 .map-badge {
   position: absolute;
@@ -128,50 +138,74 @@ header p {
 }
 .reset-btn.show { opacity: 1; pointer-events: auto; }
 
-/* ---- Wheel + controls ---- */
+/* ---- Slot machine + controls ---- */
 .controls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   padding-bottom: 6px;
 }
-.wheel-wrap {
+.slot {
+  width: min(88vw, 330px);
+  background: linear-gradient(180deg, #b5271f, #7c130d);
+  border-radius: 18px;
+  padding: 14px 16px 18px;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.25), 0 10px 26px var(--shadow);
+  border: 3px solid #ffd966;
+}
+.slot-title {
+  text-align: center;
+  color: #ffe07a;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.slot-window {
   position: relative;
-  width: min(78vw, 340px);
-  aspect-ratio: 1 / 1;
+  height: calc(var(--slot-row) * 3);
+  --slot-row: clamp(46px, 12vw, 60px);
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fffdf5, #efe7cf);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
 }
-#wheel { width: 100%; height: 100%; overflow: visible; }
-#wheelRotor { transform-box: fill-box; transform-origin: center; }
-#wheelRotor.spinning { transition: transform 5s cubic-bezier(0.18, 0.9, 0.14, 1); }
-
-.wheel-pointer {
+.slot-reel { will-change: transform; }
+.slot-row {
+  height: var(--slot-row);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 4.4vw, 1.35rem);
+  font-weight: 800;
+  color: #123f5c;
+  letter-spacing: 0.3px;
+}
+.slot-selector {
   position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 26px solid var(--gold);
-  filter: drop-shadow(0 2px 3px var(--shadow));
-  z-index: 3;
+  left: 0;
+  right: 0;
+  top: var(--slot-row);
+  height: var(--slot-row);
+  pointer-events: none;
+  border-top: 3px solid rgba(197, 154, 18, 0.85);
+  border-bottom: 3px solid rgba(197, 154, 18, 0.85);
+  background: linear-gradient(180deg, rgba(244, 196, 48, 0.16), rgba(244, 196, 48, 0.06));
 }
-.wheel-hub {
+.slot-arrow {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 16%;
-  height: 16%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, #d9d0b0 70%);
-  box-shadow: 0 3px 8px var(--shadow);
-  z-index: 2;
+  transform: translateY(-50%);
+  color: #c59a12;
+  font-size: 1rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
-
-.slice-label { font-size: 9px; fill: #10314a; font-weight: 600; }
+.slot-arrow.left { left: 6px; }
+.slot-arrow.right { right: 6px; }
 
 .play-btn {
   border: none;

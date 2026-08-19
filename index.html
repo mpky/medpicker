@@ -11,7 +11,7 @@
   <div class="app">
     <header>
       <h1>🌊 Mediterranean Island Spinner</h1>
-      <p>Spin the wheel and let fate pick your island.</p>
+      <p>Pull the lever and let fate pick your island.</p>
     </header>
 
     <div class="stage">
@@ -25,10 +25,15 @@
       </div>
 
       <div class="controls">
-        <div class="wheel-wrap">
-          <div class="wheel-pointer"></div>
-          <svg id="wheel" aria-hidden="true"><g id="wheelRotor"></g></svg>
-          <div class="wheel-hub"></div>
+        <div class="slot">
+          <div class="slot-title">🎰 ISLAND PICKER</div>
+          <div class="slot-window">
+            <div class="slot-reel" id="reel"></div>
+            <div class="slot-selector" aria-hidden="true">
+              <span class="slot-arrow left">▶</span>
+              <span class="slot-arrow right">◀</span>
+            </div>
+          </div>
         </div>
         <button id="playBtn" class="play-btn" type="button">▶ PLAY</button>
         <div id="status" class="status" aria-live="polite"></div>
@@ -39,6 +44,7 @@
   </div>
 
   <script src="js/data.js"></script>
+  <script src="js/geo.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
