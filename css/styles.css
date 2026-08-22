@@ -1,6 +1,23 @@
 /* Tufte-inspired restyle: paper & ink, restrained serif type, high data-ink,
  * no gradients / glows / heavy chrome. One accent (muted brick red) used
- * sparingly to mark the chosen island. */
+ * sparingly to mark the chosen island.
+ * Typeface: ET Book (Tufte's own), self-hosted under /fonts (MIT license). */
+@font-face {
+  font-family: "et-book";
+  src: url("../fonts/et-book-roman.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "et-book";
+  src: url("../fonts/et-book-italic.woff") format("woff");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "et-book";
+  src: url("../fonts/et-book-bold.woff") format("woff");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
 :root {
   --paper:     #fffff8;   /* Tufte cream page */
   --ink:       #1a1a17;
@@ -11,7 +28,7 @@
   --land-edge: #a99e83;    /* crisp thin coastline */
   --dot:       #33302a;    /* island marks */
   --accent:    #8c2f2f;    /* muted brick red, used only for selection */
-  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --serif: "et-book", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -23,7 +40,10 @@ html, body {
   font-family: var(--serif);
   color: var(--ink);
   background: var(--paper);
+  font-size: 1.06rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .app {
@@ -87,7 +107,8 @@ header p {
   transition: opacity 0.25s ease;
 }
 .island-group:hover .island-label { opacity: 0.92; }
-.island-group.selected .island-dot { fill: var(--accent); }
+.island-group:hover .island-dot { fill: var(--accent); }
+.island-group.selected .island-dot { fill: var(--accent); r: 2.6; }
 .island-group.selected .island-halo { stroke: var(--accent); stroke-width: 0.8; }
 .island-group.selected .island-label { opacity: 1; fill: var(--accent); font-style: italic; }
 

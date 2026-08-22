@@ -75,8 +75,8 @@
   islands.forEach(function (isl, i) {
     isl._x = projX(isl.lon); isl._y = projY(isl.lat);
     var g = el("g", { class: "island-group", "data-i": i });
-    g.appendChild(el("circle", { class: "island-halo", cx: isl._x, cy: isl._y, r: 8 }));
-    g.appendChild(el("circle", { class: "island-dot", cx: isl._x, cy: isl._y, r: 2.6 }));
+    g.appendChild(el("circle", { class: "island-halo", cx: isl._x, cy: isl._y, r: 6 }));
+    g.appendChild(el("circle", { class: "island-dot", cx: isl._x, cy: isl._y, r: 1.7 }));
     var label = el("text", { class: "island-label", x: isl._x, y: isl._y - 7, "text-anchor": "middle" });
     label.textContent = isl.name;
     g.appendChild(label);
